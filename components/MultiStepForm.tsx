@@ -56,7 +56,7 @@ const questions = [
 ];
 
 // Transformation des réponses correctes en un objet pour faciliter le calcul du score
-const correctAnswers = questions.reduce((acc, q) => {
+const correctAnswers = questions.reduce<Record<string, string>>((acc, q) => {
   acc[q.id] = q.correctAnswer;
   return acc;
 }, {});

@@ -5,9 +5,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+interface Question {
+  id: string;
+  question: string;
+  options: Array<{ value: number }>;
+  weight?: number;
+}
+
 export function calculatePercentage(
   answers: Record<number, number>,
-  questions: any
+  questions: Question[]
 ): number {
   if (!answers || Object.keys(answers).length === 0) {
     return 0;
@@ -29,7 +36,7 @@ export function calculatePercentage(
 
     // Calculer le score maximum possible pour cette question
     const maxOptionValue = Math.max(
-      ...questionConfig.options.map((option: any) => option.value)
+      ...questionConfig.options.map((option) => option.value)
     );
     maxPossibleScore += maxOptionValue * weight;
   });

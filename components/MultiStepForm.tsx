@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { AccordionCard } from "./Accordeon";
 
 const questions = [
   {
@@ -20,6 +21,9 @@ const questions = [
       "Un conteneur proxifié permet de masquer le script qui charge GTM.",
     options: ["Oui", "Non"],
     correctAnswer: "Oui",
+    faq: "Comment vérifier si le conteneur GTM est proxifié ?",
+    faqAnswer:
+      "Pour vérifier si votre conteneur Google Tag Manager est proxifié, inspectez le code source de votre page et recherchez les URLs de chargement GTM, puis vérifiez l'onglet Réseau des outils développeur de votre navigateur pour identifier les requêtes vers googletagmanager.com ou gtag/js.",
     weight: 1,
   },
   {
@@ -71,28 +75,31 @@ const Step1 = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>{question.question}</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {question.options.map((option) => (
-          <Button
-            key={option}
-            variant={formData[question.id] === option ? "default" : "outline"}
-            className="w-full justify-start"
-            onClick={() => handleOptionSelect(option)}
-          >
-            {option}
+    <>
+      <Card className="w-full max-w-lg">
+        <CardHeader>
+          <CardTitle>{question.question}</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {question.options.map((option) => (
+            <Button
+              key={option}
+              variant={formData[question.id] === option ? "default" : "outline"}
+              className="w-full justify-start"
+              onClick={() => handleOptionSelect(option)}
+            >
+              {option}
+            </Button>
+          ))}
+        </CardContent>
+        <CardFooter className="flex justify-end">
+          <Button onClick={nextStep} disabled={!formData[question.id]}>
+            Suivant
           </Button>
-        ))}
-      </CardContent>
-      <CardFooter className="flex justify-end">
-        <Button onClick={nextStep} disabled={!formData[question.id]}>
-          Suivant
-        </Button>
-      </CardFooter>
-    </Card>
+        </CardFooter>
+      </Card>
+      <AccordionCard faq={question.faq} faqAnswer={question.faqAnswer} />
+    </>
   );
 };
 
@@ -106,7 +113,7 @@ const Step2 = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>{question.question}</CardTitle>
       </CardHeader>
@@ -144,7 +151,7 @@ const Step3 = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>{question.question}</CardTitle>
       </CardHeader>
@@ -182,7 +189,7 @@ const Step4 = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>{question.question}</CardTitle>
       </CardHeader>
@@ -224,7 +231,7 @@ const Step5 = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>{question.question}</CardTitle>
       </CardHeader>
@@ -303,7 +310,7 @@ export default function MultiStepForm() {
 
   return (
     <div className="flex flex-col items-center space-y-6">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg">
         <div className="mb-2 flex justify-between text-sm">
           <span>
             Étape {currentStep + 1} sur {questions.length}
